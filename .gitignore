@@ -1,0 +1,16 @@
+# Java build files
+/target/
+*.class
+
+# Node.js
+/node_modules/
+
+# Environment files
+.env
+
+# IDE settings
+/.idea/
+*.iml
+
+# Logs
+*.log
