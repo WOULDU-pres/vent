@@ -8,7 +8,7 @@ docker compose down
 
 echo "🚀 2. 백엔드 빌드 시작..."
 # cd backend && ./gradlew clean build && cd ..
-cd backend && ./gradlew build && cd ..
+# cd backend && ./gradlew build && cd ..
 
 echo "🛠️ 3. 도커 컨테이너 빌드 및 실행..."
 docker compose up --build -d

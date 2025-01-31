@@ -21,7 +21,7 @@ public class EventIntegrationTest {
 
     @Container
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16")
-            .withDatabaseName("vent_test")
+            .withDatabaseName("vent")
             .withUsername("vent")
             .withPassword("vent");
 
