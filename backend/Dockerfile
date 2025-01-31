@@ -15,8 +15,8 @@ RUN chmod +x gradlew && ./gradlew dependencies --no-daemon
 
 # 소스 코드 복사 및 빌드 실행 (테스트 제외)
 COPY . .
-RUN #./gradlew build -x test
-RUN ./gradlew clean build -x test
+RUN ./gradlew build -x test
+RUN #./gradlew clean build -x test
 
 # 최종 이미지 생성 단계
 FROM eclipse-temurin:21-jdk-jammy
