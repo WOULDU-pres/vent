@@ -49,10 +49,46 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      
+
+  elasticsearch:
+    image: elasticsearch:8.13.0
+    container_name: elasticsearch-vent
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - vent-network
+
+  logstash:
+    image: logstash:8.13.0
+    container_name: logstash-vent
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+    ports:
+      - "5000:5000"
+    depends_on:
+      - elasticsearch
+    networks:
+      - vent-network
+
+  kibana:
+    image: kibana:8.13.0
+    container_name: kibana-vent
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - vent-network
+
 volumes:
   postgres_data:
   redis_data:
+  es_data:
 
 networks:
   vent-network:
