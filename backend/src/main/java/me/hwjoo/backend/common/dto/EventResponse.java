@@ -8,15 +8,15 @@ import me.hwjoo.backend.common.entity.Event;
 // src/main/java/me/hwjoo/backend/common/dto/EventResponse.java
 @Getter
 @Builder
-public class EventListResponse {
+public class EventResponse {
     private Long id;
     private String type;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Integer participantCount;
 
-    public static EventListResponse fromEntity(Event event, Integer participantCount) {
-        return EventListResponse.builder()
+    public static EventResponse fromEntity(Event event, Integer participantCount) {
+        return EventResponse.builder()
                 .id(event.getId())
                 .type(event.getType())
                 .startTime(event.getStartTime().toLocalDateTime())

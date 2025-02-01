@@ -3,7 +3,7 @@ package me.hwjoo.backend.common.service;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import me.hwjoo.backend.common.dto.EventListResponse;
+import me.hwjoo.backend.common.dto.EventResponse;
 import me.hwjoo.backend.common.repository.EventRepository;
 import me.hwjoo.backend.common.repository.ParticipationRepository;
 import org.springframework.stereotype.Service;
@@ -16,19 +16,18 @@ public class EventService {
     private final EventRepository eventRepository;
     private final ParticipationRepository participationRepository;
 
-//    // Event만 가져오기
-//    public List<EventListResponse> getAllEvents() {
-//        return eventRepository.findAll().stream()
-//                .map(EventListResponse::from)
-//                .collect(Collectors.toList());
-//    }
-
-    public List<EventListResponse> getAllEventsWithParticipants() {
+    public List<EventResponse> getAllEventsWithParticipants() {
         return eventRepository.findAll().stream()
                 .map(event -> {
                     int count = participationRepository.countByEventId(event.getId());
-                    return EventListResponse.fromEntity(event, count); // 수정된 부분
+                    return EventResponse.fromEntity(event, count); // 수정된 부분
                 })
+                .collect(Collectors.toList());
+    }
+
+    public List<EventResponse> getFilteredEvents(String type) {
+        return eventRepository.findAllByType(type).stream()
+                .map(event -> EventResponse.fromEntity(event, participationRepository.countByEventId(event.getId())))
                 .collect(Collectors.toList());
     }
 }
