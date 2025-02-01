@@ -18,12 +18,11 @@ jobs:
 
       - name: Deploy to Koyeb
         run: |
-          koyeb service create \
-            --name vent \
+          koyeb service create vent \
             --app vent \
             --docker-compose-path docker-compose.prod.yaml \
             --dockerfile Dockerfile.koyeb \
-            --privileged
+            --privileged \
             --port 80:http \
             --route "/:80" \
             --port 8080:http \
