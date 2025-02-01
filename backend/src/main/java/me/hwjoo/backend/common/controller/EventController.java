@@ -19,6 +19,6 @@ public class EventController {
 
     @GetMapping
     public ResponseEntity<List<EventListResponse>> getEventList() {
-        return ResponseEntity.ok(eventService.getAllEvents());
+        return ResponseEntity.ok(eventService.getAllEventsWithParticipants());
     }
 }

@@ -1,7 +1,6 @@
 package me.hwjoo.backend.common.dto;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import me.hwjoo.backend.common.entity.Event;
@@ -11,22 +10,18 @@ import me.hwjoo.backend.common.entity.Event;
 @Builder
 public class EventListResponse {
     private Long id;
-    private String eventType;
-    private String status;
+    private String type;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private Integer participantCount;
 
-    public static EventListResponse from(Event event) {
-        ZonedDateTime now = ZonedDateTime.now();
-        String status = event.getStartTime().isAfter(now) ? "예정" :
-                event.getEndTime().isBefore(now) ? "종료" : "진행중";
-
+    public static EventListResponse fromEntity(Event event, Integer participantCount) {
         return EventListResponse.builder()
                 .id(event.getId())
-                .eventType(event.getType())
-                .status(status)
+                .type(event.getType())
                 .startTime(event.getStartTime().toLocalDateTime())
                 .endTime(event.getEndTime().toLocalDateTime())
+                .participantCount(participantCount)
                 .build();
     }
 }

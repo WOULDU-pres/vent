@@ -62,7 +62,7 @@ services:
       - discovery.type=single-node
       - xpack.security.enabled=false  # 보안 완전 비활성화
       - xpack.security.http.ssl.enabled=false  # SSL 비활성화
-      - ES_JAVA_OPTS=-Xms2g -Xmx2g  # 메모리 1GB로 증설
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g  # 메모리 1GB로 증설
     volumes:
       - es_data:/usr/share/elasticsearch/data
     ports:
@@ -102,6 +102,20 @@ services:
       - elasticsearch
     networks:
       - vent-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend-vent
+    ports:
+      - "80:80"
+    environment:
+      - VITE_API_BASE_URL=http://spring-vent:8080
+    networks:
+      - vent-network
+    depends_on:
+      - spring
 
 volumes:
   postgres_data:
