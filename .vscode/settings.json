@@ -1,5 +1,7 @@
 {
     "conventionalCommits.scopes": [
-        "backend/flash-deal"
+        "backend/flash-deal",
+        "fullstack/flash-deal",
+        "frontend/flash-deal"
     ]
 }

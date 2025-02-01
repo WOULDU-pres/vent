@@ -1,41 +1,47 @@
-// frontend/src/pages/Dashboard.tsx
+// src/pages/Dashboard.tsx
 import { useQuery } from '@tanstack/react-query';
-import { fetchAllEvents, EventResponse } from '../api/event';
+import { fetchAllEvents } from '../api/event';
 import EventChart from '../components/EventChart';
+import EventTypeFilter from '../components/EventTypeFilter';
+import { useEventFilterStore } from '../store/filterStore';
 
 export default function Dashboard() {
-  const { data, isLoading, isError } = useQuery<EventResponse[]>({
-    queryKey: ['allEvents'],
-    queryFn: fetchAllEvents,
-    refetchInterval: 5000, // 5초마다 데이터 갱신
+  const { selectedType } = useEventFilterStore();
+
+  // 필터 조건 반영된 쿼리
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['events', selectedType], // 쿼리 키에 필터 상태 포함
+    queryFn: () => fetchAllEvents(selectedType),
+    refetchInterval: 5000,
   });
 
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error!</div>;
+  if (isLoading) return <div className="p-4 text-gray-500">로딩 중...</div>;
+  if (isError) return <div className="p-4 text-red-500">데이터 불러오기 실패</div>;
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold">이벤트 현황</h2>
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-800">이벤트 현황 대시보드</h2>
+      
+      {/* 필터 컴포넌트 추가 */}
+      <EventTypeFilter />
 
-      {/* 이벤트 카드 목록 */}
+      {/* 이벤트 카드 그리드 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {data?.map((event) => (
-          <div key={event.id} className="border rounded p-3 bg-white">
-            <h3 className="text-xl font-semibold">{event.type}</h3>
-            <p>시작: {new Date(event.startTime).toLocaleString()}</p>
-            <p>종료: {new Date(event.endTime).toLocaleString()}</p>
-            {event.participantCount !== undefined && (
-              <p>참여자 수: {event.participantCount}</p>
-            )}
+          <div key={event.id} className="p-4 bg-white rounded-lg shadow hover:shadow-md transition-shadow">
+            <h3 className="text-lg font-semibold mb-2 capitalize">{event.type.replace('-', ' ')}</h3>
+            <div className="space-y-1 text-sm">
+              <p>🗓 시작: {new Date(event.startTime).toLocaleDateString()}</p>
+              <p>⏰ 종료: {new Date(event.endTime).toLocaleDateString()}</p>
+              <p className="font-medium">👥 참여자: {event.participantCount}명</p>
+            </div>
           </div>
         ))}
       </div>
 
-
-
-      {/* 간단한 차트 - 참여자 통계 예시 */}
-      <div className="p-4 bg-white rounded shadow">
-        <h3 className="text-xl font-semibold mb-2">이벤트별 참여자 차트</h3>
+      {/* 차트 영역 */}
+      <div className="mt-8 p-6 bg-white rounded-xl shadow">
+        <h3 className="text-xl font-semibold mb-4">참여자 추이 분석</h3>
         <EventChart events={data || []} />
       </div>
     </div>
