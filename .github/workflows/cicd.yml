@@ -1,0 +1,30 @@
+# .github/workflows/cicd.yml
+name: Koyeb CI/CD Deployment
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Set up Koyeb CLI
+        uses: koyeb-community/koyeb-actions@v2
+        with:
+          api_token: ${{ secrets.KOYEB_API_TOKEN }}
+
+      - name: Deploy to Koyeb
+        run: |
+          koyeb service create \
+            --name vent \
+            --app vent \
+            --docker-compose-path docker-compose.prod.yaml \
+            --dockerfile Dockerfile.koyeb \
+            --privileged
+            --port 80:http \
+            --route "/:80" \
+            --port 8080:http \
+            --route "/api/*:8080"

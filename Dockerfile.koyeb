@@ -1,0 +1,6 @@
+# Dockerfile.koyeb
+FROM koyeb/docker-compose
+COPY docker-compose.prod.yml /app/docker-compose.yml
+COPY backend /app/backend
+COPY frontend /app/frontend
+COPY koyeb-init-scripts /app/koyeb-init-scripts

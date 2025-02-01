@@ -1,0 +1,50 @@
+# docker-compose.prod.yaml
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: vent
+      POSTGRES_USER: vent
+      POSTGRES_PASSWORD: vent
+    networks:
+      - vent-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "vent"]
+
+  redis:
+    image: redis:7.2
+    networks:
+      - vent-network
+
+  spring:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile.koyeb
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/vent
+      SPRING_DATASOURCE_USERNAME: vent
+      SPRING_DATASOURCE_PASSWORD: vent
+      SPRING_DATA_REDIS_HOST: redis
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - vent-network
+
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    environment:
+      VITE_API_BASE_URL: http://spring:8080
+    depends_on:
+      - spring
+    networks:
+      - vent-network
+
+networks:
+  vent-network:
