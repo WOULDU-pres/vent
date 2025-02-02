@@ -1,29 +1,30 @@
 # .github/workflows/cicd.yml
-name: Koyeb CI/CD Deployment
+# name: Koyeb CI/CD Deployment
 
-on:
-  push:
-    branches: [main]
+# on:
+#   push:
+#     branches: [main]
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
       
-      - name: Set up Koyeb CLI
-        uses: koyeb-community/koyeb-actions@v2
-        with:
-          api_token: ${{ secrets.KOYEB_API_TOKEN }}
+#       - name: Set up Koyeb CLI
+#         uses: koyeb-community/koyeb-actions@v2
+#         with:
+#           api_token: ${{ secrets.KOYEB_API_TOKEN }}
 
-      - name: Deploy to Koyeb
-        run: |
-          koyeb service create vent \
-            --app vent \
-            --docker-compose-path docker-compose.prod.yaml \
-            --dockerfile Dockerfile.koyeb \
-            --privileged \
-            --port 80:http \
-            --route "/:80" \
-            --port 8080:http \
-            --route "/api/*:8080"
+#       - name: Build and deploy
+#         uses: koyeb/action-git-deploy@v1
+#         with:
+#           app-name: vent
+#           service-ports: "80:http 8080:http"
+#           service-routes: "/:80 /api/*:8080"
+#           git-builder: docker
+#           git-docker-dockerfile: Dockerfile.koyeb
+#           docker-compose-path: docker-compose.prod.yaml
+#           privileged: true
+#           skip-cache: true
+#           koyeb-token: ${{ secrets.KOYEB_API_TOKEN }}
