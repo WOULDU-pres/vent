@@ -4,11 +4,11 @@
 BASE_DIR="src/main/java/me/hwjoo/backend"
 
 # 생성할 디렉토리 목록
-mkdir -p "$BASE_DIR/flash-deal/controller"
-mkdir -p "$BASE_DIR/flash-deal/service"
-mkdir -p "$BASE_DIR/flash-deal/repository"
-mkdir -p "$BASE_DIR/flash-deal/entity"
-mkdir -p "$BASE_DIR/flash-deal/dto"
+mkdir -p "$BASE_DIR/flashDeal/controller"
+mkdir -p "$BASE_DIR/flashDeal/service"
+mkdir -p "$BASE_DIR/flashDeal/repository"
+mkdir -p "$BASE_DIR/flashDeal/entity"
+mkdir -p "$BASE_DIR/flashDeal/dto"
 mkdir -p "$BASE_DIR/raffle/controller"
 mkdir -p "$BASE_DIR/raffle/service"
 mkdir -p "$BASE_DIR/raffle/repository"

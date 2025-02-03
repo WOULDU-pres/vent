@@ -1,3 +1,4 @@
+# docker-compose.yml
 services:
   postgres:
     image: postgres:16
@@ -43,65 +44,14 @@ services:
       postgres:
         condition: service_healthy
       redis:
-        condition: service_started 
-      logstash:
-        condition: service_healthy
+        condition: service_started
     networks:
       - vent-network
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 10s
       timeout: 5s
       retries: 5
-
-  elasticsearch:
-    image: elasticsearch:8.13.0
-    container_name: elasticsearch-vent
-    environment:
-      - ELASTIC_PASSWORD=vent
-      - discovery.type=single-node
-      - xpack.security.enabled=false  # 보안 완전 비활성화
-      - xpack.security.http.ssl.enabled=false  # SSL 비활성화
-      - ES_JAVA_OPTS=-Xms1g -Xmx1g  # 메모리 1GB로 증설
-    volumes:
-      - es_data:/usr/share/elasticsearch/data
-    ports:
-      - "9200:9200"
-    networks:
-      - vent-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=50s"]
-      interval: 10s
-      timeout: 5s
-      retries: 10  # 재시도 횟수 증가
-
-  logstash:
-    image: logstash:8.13.0
-    container_name: logstash-vent
-    volumes:
-      - ./logstash/pipeline:/usr/share/logstash/pipeline
-    ports:
-      - "5000:5000"
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-    networks:
-      - vent-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9600/_node/stats/pipelines?pretty"]  # 파이프라인 상태 확인
-      interval: 15s
-      timeout: 10s
-      retries: 8
-
-  kibana:
-    image: kibana:8.13.0
-    container_name: kibana-vent
-    ports:
-      - "5601:5601"
-    depends_on:
-      - elasticsearch
-    networks:
-      - vent-network
 
   frontend:
     build:
@@ -120,7 +70,6 @@ services:
 volumes:
   postgres_data:
   redis_data:
-  es_data:
 
 networks:
   vent-network:

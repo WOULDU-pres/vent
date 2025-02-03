@@ -1,0 +1,126 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres-vent
+    environment:
+      POSTGRES_DB: vent
+      POSTGRES_USER: vent
+      POSTGRES_PASSWORD: vent
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - vent-network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "vent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7.2
+    container_name: redis-vent
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - vent-network
+
+  spring:
+    build:
+      context: ./backend
+    container_name: spring-vent
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/vent
+      SPRING_DATASOURCE_USERNAME: vent
+      SPRING_DATASOURCE_PASSWORD: vent
+      SPRING_DATA_REDIS_HOST: redis
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started 
+      logstash:
+        condition: service_healthy
+    networks:
+      - vent-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  elasticsearch:
+    image: elasticsearch:8.13.0
+    container_name: elasticsearch-vent
+    environment:
+      - ELASTIC_PASSWORD=vent
+      - discovery.type=single-node
+      - xpack.security.enabled=false  # 보안 완전 비활성화
+      - xpack.security.http.ssl.enabled=false  # SSL 비활성화
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g  # 메모리 1GB로 증설
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - vent-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=50s"]
+      interval: 10s
+      timeout: 5s
+      retries: 10  # 재시도 횟수 증가
+
+  logstash:
+    image: logstash:8.13.0
+    container_name: logstash-vent
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+    ports:
+      - "5000:5000"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - vent-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9600/_node/stats/pipelines?pretty"]  # 파이프라인 상태 확인
+      interval: 15s
+      timeout: 10s
+      retries: 8
+
+  kibana:
+    image: kibana:8.13.0
+    container_name: kibana-vent
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    networks:
+      - vent-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend-vent
+    ports:
+      - "80:80"
+    environment:
+      - VITE_API_BASE_URL=http://spring-vent:8080
+    networks:
+      - vent-network
+    depends_on:
+      - spring
+
+volumes:
+  postgres_data:
+  redis_data:
+  es_data:
+
+networks:
+  vent-network:
