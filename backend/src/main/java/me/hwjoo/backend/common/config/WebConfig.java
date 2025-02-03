@@ -1,4 +1,4 @@
-package me.hwjoo.backend.config;
+package me.hwjoo.backend.common.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
