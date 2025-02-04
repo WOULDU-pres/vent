@@ -67,6 +67,19 @@ services:
     depends_on:
       - spring
 
+  # cypress:
+  #   image: cypress/included:12.17.1
+  #   depends_on:
+  #     - frontend
+  #     - spring
+  #   environment:
+  #     - CYPRESS_baseUrl=http://frontend:80
+  #   volumes:
+  #     - ./frontend:/e2e
+  #     - ./frontend/cypress/videos:/e2e/cypress/videos
+  #   working_dir: /e2e
+  #   command: npx cypress run --browser chrome
+
 volumes:
   postgres_data:
   redis_data:
