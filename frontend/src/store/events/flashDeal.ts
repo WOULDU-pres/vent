@@ -1,7 +1,7 @@
-// src/store/flashDealStore.ts
+// src/store/events/flashDeal.ts
 import { create } from 'zustand';
-import { fetchFlashDeals } from '../api/flashDeal';
-import { FlashDealResponse } from '../types/flashDeal';
+import { fetchFlashDeals } from '../../api/flashDeal';
+import { FlashDealResponse } from '../../types/events';
 
 interface FlashDealState {
   deals: FlashDealResponse[];

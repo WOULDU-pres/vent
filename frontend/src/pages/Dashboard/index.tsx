@@ -1,9 +1,9 @@
 // src/pages/Dashboard.tsx
 import { useQuery } from '@tanstack/react-query';
-import { fetchAllEvents } from '../api/event';
-import EventChart from '../components/EventChart';
-import EventTypeFilter from '../components/EventTypeFilter';
-import { useEventFilterStore } from '../store/filterStore';
+import { fetchAllEvents } from '../../api/event';
+import EventChart from '../../components/organisms/charts/EventChart';
+import EventTypeFilter from '../../components/EventTypeFilter';
+import { useEventFilterStore } from '../../store/filterStore';
 
 export default function Dashboard() {
   const { selectedType } = useEventFilterStore();

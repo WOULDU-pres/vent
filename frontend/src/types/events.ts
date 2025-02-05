@@ -17,5 +17,6 @@ export interface FlashDealCreateRequest {
   dealPrice: number;
   quantity: number;
   startTime: string;
+  endTime?: string   // [옵션] 서버에서 자동 계산 가능
 }
   

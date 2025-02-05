@@ -1,13 +1,15 @@
 // src/pages/FlashDeal/List.tsx 
 import { useQuery } from '@tanstack/react-query';
 import { fetchFlashDeals, participateFlashDeal } from '../../api/flashDeal';
-import { FlashDealCard } from '../../components/ui/FlashDealCard';
+import { FlashDealCard } from '../../components/organisms/FlashDealCard';
 
 export const FlashDealListPage = () => {
-  const { data: deals, isLoading } = useQuery({
+  const { data: response, isLoading } = useQuery({
     queryKey: ['flashDeals'],
     queryFn: fetchFlashDeals 
   });
+
+  const deals = Array.isArray(response) ? response : []
 
   if (isLoading) return <div className="p-4 text-gray-500">로딩 중...</div>;
 

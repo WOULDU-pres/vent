@@ -1,6 +1,6 @@
-// src/api/flashDeal/index.ts
-import { apiClient } from '../instance';
-import { FlashDealResponse, FlashDealCreateRequest } from '../../types/flashDeal';
+// src/api/flashDeal.ts
+import { apiClient } from './instance';
+import { FlashDealResponse, FlashDealCreateRequest } from '../types/events';
 
 export const fetchFlashDeals = async () => {
   const response = await apiClient.get<FlashDealResponse[]>('/flash-deals');

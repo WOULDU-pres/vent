@@ -1,7 +1,7 @@
 // frontend/src/components/EventChart.tsx
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement } from 'chart.js';
-import { EventResponse } from '../api/event';
+import { EventResponse } from '../../../api/event';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement);
 

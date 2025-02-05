@@ -1,4 +1,4 @@
-// src/components/layout/PageContainer.tsx
+// src/components/templates/MainLayout/PageContainer.tsx
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
