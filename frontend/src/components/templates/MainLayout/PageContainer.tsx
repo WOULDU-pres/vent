@@ -1,6 +1,6 @@
 // src/components/templates/MainLayout/PageContainer.tsx
-import { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { ReactNode } from "react";
+import { Link } from "react-router-dom";
 
 export const PageContainer = ({ children }: { children: ReactNode }) => (
   <div className="page-container">

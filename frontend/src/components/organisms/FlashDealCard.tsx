@@ -17,9 +17,8 @@ const STATUS_STYLE = {
 const STATUS_LABEL = {
   ACTIVE: "진행중",
   UPCOMING: "예정",
-  ENDED: "종료"
+  ENDED: "종료",
 } as const;
-
 
 export const FlashDealCard = ({ deal, onParticipate }: Props) => {
   const { actions } = useFlashDealStore();
@@ -32,7 +31,8 @@ export const FlashDealCard = ({ deal, onParticipate }: Props) => {
       await onParticipate(deal.id);
       await actions.refreshDeals();
     } catch (error) {
-      const message = error instanceof Error ? error.message : "알 수 없는 오류";
+      const message =
+        error instanceof Error ? error.message : "알 수 없는 오류";
       alert(`참여에 실패했습니다: ${message}`);
     }
   };
@@ -43,7 +43,7 @@ export const FlashDealCard = ({ deal, onParticipate }: Props) => {
       <div
         className={cn(
           "inline-flex items-center gap-2 rounded-full px-3 py-1 text-sm",
-          STATUS_STYLE[deal.status]
+          STATUS_STYLE[deal.status],
         )}
       >
         <div className="h-2 w-2 rounded-full bg-current" />

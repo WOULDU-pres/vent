@@ -1,5 +1,5 @@
 // src/store/filterStore.ts
-import { create } from 'zustand';
+import { create } from "zustand";
 
 interface EventFilterState {
   selectedType: string | null;

@@ -1,5 +1,5 @@
 // frontend/src/store/appStore.ts
-import { create } from 'zustand';
+import { create } from "zustand";
 
 interface AppState {
   selectedEventId: number | null;
@@ -14,5 +14,6 @@ export const useAppStore = create<AppState>((set) => ({
   setSelectedEventId: (id) => set(() => ({ selectedEventId: id })),
 
   isSidebarOpen: false,
-  toggleSidebar: () => set((state) => ({ isSidebarOpen: !state.isSidebarOpen }))
+  toggleSidebar: () =>
+    set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
 }));

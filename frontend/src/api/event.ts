@@ -1,12 +1,12 @@
 // frontend/src/api/event.ts
-import axios from 'axios';
+import axios from "axios";
 
 export interface EventResponse {
   id: number;
   type: string;
   startTime: string;
   endTime: string;
-  participantCount: number; 
+  participantCount: number;
 }
 
 // export const fetchAllEvents = async (): Promise<EventResponse[]> => {
@@ -16,8 +16,10 @@ export interface EventResponse {
 // };
 
 // src/api/event.ts
-export const fetchAllEvents = async (type?: string | null): Promise<EventResponse[]> => {
+export const fetchAllEvents = async (
+  type?: string | null,
+): Promise<EventResponse[]> => {
   const params = type ? { type } : {};
-  const { data } = await axios.get('/api/events/filter', { params });
+  const { data } = await axios.get("/api/events/filter", { params });
   return Array.isArray(data) ? data : [];
 };

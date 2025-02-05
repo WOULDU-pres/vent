@@ -1,7 +1,7 @@
 // src/store/events/flashDeal.ts
-import { create } from 'zustand';
-import { fetchFlashDeals } from '../../api/flashDeal';
-import { FlashDealResponse } from '../../types/events';
+import { create } from "zustand";
+import { fetchFlashDeals } from "../../api/flashDeal";
+import { FlashDealResponse } from "../../types/events";
 
 interface FlashDealState {
   deals: FlashDealResponse[];
@@ -18,8 +18,8 @@ export const useFlashDealStore = create<FlashDealState>((set) => ({
   actions: {
     setSelectedDeal: (deal) => set({ selectedDeal: deal }),
     refreshDeals: async () => {
-      const data = await fetchFlashDeals(); 
+      const data = await fetchFlashDeals();
       set({ deals: data });
-    }
-  }
+    },
+  },
 }));
