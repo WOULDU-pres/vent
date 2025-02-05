@@ -4,8 +4,10 @@ package me.hwjoo.backend.flashDeal.service;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.hwjoo.backend.common.exception.AlreadyParticipatingException;
@@ -34,6 +36,33 @@ public class FlashDealService {
 
     private static final String FLASH_DEAL_LOCK_KEY = "flash_deal:lock:";
     private static final long LOCK_DURATION = 10; // seconds
+
+    @Transactional(readOnly = true)
+    public List<FlashDealResponse> getAllDeals() {
+        return flashDealRepository.findAll().stream()
+                .map(FlashDealResponse::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<FlashDealResponse> getDealsByStatus(String status) {
+        if (status == null || status.isBlank()) {
+            return getAllDeals();
+        }
+
+        FlashDealStatus dealStatus = parseStatus(status);
+        return flashDealRepository.findByStatus(dealStatus).stream()
+                .map(FlashDealResponse::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    private FlashDealStatus parseStatus(String status) {
+        try {
+            return FlashDealStatus.valueOf(status.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new InvalidDealStatusException("유효하지 않은 상태값: " + status);
+        }
+    }
 
     @Transactional
     public FlashDealResponse participate(Long dealId, UUID userUuid) {
