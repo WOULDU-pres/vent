@@ -2,7 +2,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchAllEvents } from "../../api/event";
 import EventChart from "../../components/organisms/charts/EventChart";
-import EventTypeFilter from "../../components/EventTypeFilter";
+import EventTypeFilter from "../../components/molecules/EventTypeFilter";
 import { useEventFilterStore } from "../../store/filterStore";
 
 export default function Dashboard() {

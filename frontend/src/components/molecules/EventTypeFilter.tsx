@@ -1,5 +1,5 @@
 // src/components/EventTypeFilter.tsx
-import { useEventFilterStore } from "../store/filterStore";
+import { useEventFilterStore } from "../../store/filterStore";
 
 const EVENT_TYPES = [
   { value: "", label: "전체" },

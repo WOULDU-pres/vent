@@ -20,11 +20,29 @@ export const MainPage = () => {
             </div>
             <div>
               <h2 className="text-surface-900 group-hover:text-primary text-2xl font-semibold transition-colors">
-                100원 딜 관리
+                100원 특가 목록
               </h2>
               <p className="text-surface-600 mt-2">
                 실시간 특가 상품 관리 및 모니터링
               </p>
+            </div>
+          </div>
+        </Link>
+
+        {/* 100원 딜 카드 */}
+        <Link
+          to="/flash-deals/create"
+          className="group bg-surface-0 rounded-2xl p-8 shadow-lg transition-shadow hover:shadow-xl"
+        >
+          <div className="flex items-center gap-6">
+            <div className="bg-primary/10 flex h-20 w-20 items-center justify-center rounded-xl">
+              <span className="text-primary text-3xl font-bold">100</span>
+            </div>
+            <div>
+              <h2 className="text-surface-900 group-hover:text-primary text-2xl font-semibold transition-colors">
+                100원 특가 생성하기
+              </h2>
+              <p className="text-surface-600 mt-2">실시간 특가 상품 생성</p>
             </div>
           </div>
         </Link>

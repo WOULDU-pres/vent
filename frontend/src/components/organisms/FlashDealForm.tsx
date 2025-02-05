@@ -28,15 +28,18 @@ export const FlashDealForm = () => {
 
   // 제출 핸들러
   const onSubmit = (data: FlashDealCreateRequest) => {
+    const formatDateTime = (datetime: string) => `${datetime}:00+09:00`; // 초 단위 및 타임존 추가
+
     mutate({
       ...data,
       startTime: new Date().toISOString(),
+      endTime: data.endTime ? formatDateTime(data.endTime) : undefined,
     });
   };
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)} // [수정] 핸들러 연결
+      onSubmit={handleSubmit(onSubmit)}
       className="mx-auto max-w-2xl space-y-6 rounded-lg bg-white p-8 shadow-md"
     >
       <div>
@@ -82,11 +85,49 @@ export const FlashDealForm = () => {
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
           />
         </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            수량
+          </label>
+          <input
+            type="number"
+            {...register("quantity", {
+              required: "필수 입력 항목",
+              max: 999,
+            })}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          />
+        </div>
+
+        {/* 시작 시간 입력 필드 */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            시작 시간
+          </label>
+          <input
+            type="datetime-local"
+            {...register("startTime", { required: "필수 입력 항목" })}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          />
+        </div>
+
+        {/* 종료 시간 입력 필드 */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            종료 시간
+          </label>
+          <input
+            type="datetime-local"
+            {...register("endTime")}
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+          />
+        </div>
       </div>
 
       <button
         type="submit"
-        disabled={isPending} // [추가] 로딩 상태 비활성화
+        disabled={isPending}
         className="w-full rounded-md bg-blue-600 px-4 py-2 text-white transition-colors hover:bg-blue-700"
       >
         딜 생성
