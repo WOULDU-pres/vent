@@ -27,7 +27,7 @@ public class EventController {
     // 이벤트 필터링(검색) API
     @GetMapping("/filter")
     public ResponseEntity<List<EventResponse>> getFilteredEvents(
-            @RequestParam(required = false) String type
+            @RequestParam(name = "type", required = false) String type
     ) {
         return ResponseEntity.ok(eventService.getFilteredEvents(type));
     }

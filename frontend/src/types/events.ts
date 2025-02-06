@@ -1,4 +1,13 @@
-// src/types/flashDeal.ts
+// src/types/events.ts
+
+export interface EventResponse {
+  id: number;
+  type: string;
+  startTime: string;
+  endTime: string;
+  participantCount: number;
+}
+
 export interface FlashDealResponse {
   id: number;
   productName: string;

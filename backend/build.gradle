@@ -29,7 +29,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -51,6 +50,9 @@ dependencies {
 
     // logstash
     implementation 'net.logstash.logback:logstash-logback-encoder:7.4'
+
+    // docker compose
+    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 }
 
 tasks.named('test') {
@@ -60,3 +62,7 @@ tasks.named('test') {
 //springBoot {
 //    mainClass = 'me.hwjoo.backend.BackendApplication'
 //}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += '-parameters'
+}

@@ -35,7 +35,7 @@ public class FlashDealController {
      */
     @GetMapping
     public ResponseEntity<List<FlashDealResponse>> getDealsByStatus(
-            @RequestParam(required = false) String status) {
+            @RequestParam(name = "status", required = false) String status) {
 
         return ResponseEntity.ok(flashDealService.getDealsByStatus(status));
     }
@@ -51,7 +51,7 @@ public class FlashDealController {
     @ApiResponse(responseCode = "400", description = "잘못된 요청")
     @PostMapping("/{dealId}/participate")
     public ResponseEntity<FlashDealResponse> participateDeal(
-            @PathVariable Long dealId) {
+            @PathVariable("dealId") Long dealId) {
 
         FlashDealResponse response = flashDealService.participate(dealId,
                 userService.getDummyUserUuid());

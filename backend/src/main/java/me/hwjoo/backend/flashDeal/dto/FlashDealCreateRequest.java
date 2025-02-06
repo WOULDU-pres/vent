@@ -6,12 +6,17 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import java.time.ZonedDateTime;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 // src/main/java/me/hwjoo/backend/flashDeal/dto/FlashDealCreateRequest.java
 @Getter
 @Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)  // 추가
+@AllArgsConstructor(access = AccessLevel.PRIVATE)     // 추가
 public class FlashDealCreateRequest {
     @NotBlank(message = "상품명은 필수 입력값입니다")
     @Size(max = 100, message = "상품명은 100자 이내로 입력해주세요")

@@ -61,7 +61,7 @@ services:
     ports:
       - "80:80"
     environment:
-      - VITE_API_BASE_URL=http://spring-vent:8080
+      - VITE_API_BASE_URL=http://spring-vent:8080/api
     networks:
       - vent-network
     depends_on:
