@@ -1,5 +1,6 @@
 // frontend/src/components/EventChart.tsx
 import { Bar } from "react-chartjs-2";
+import { EventResponse } from "../../../types/events";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,7 +9,6 @@ import {
   LineElement,
   BarElement,
 } from "chart.js";
-import { EventResponse } from "../../../api/event";
 
 ChartJS.register(
   CategoryScale,

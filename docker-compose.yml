@@ -20,14 +20,21 @@ services:
       retries: 5
 
   redis:
-    image: redis:7.2
+    image: redis/redis-stack-server:7.2.0-v10
     container_name: redis-vent
     ports:
       - "6379:6379"
+      - "8001:8001" # Redis Insight 추가
     volumes:
       - redis_data:/data
     networks:
       - vent-network
+    command: redis-server --protected-mode no --save 60 1 --loglevel warning
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   spring:
     build:
@@ -40,6 +47,10 @@ services:
       SPRING_DATASOURCE_USERNAME: vent
       SPRING_DATASOURCE_PASSWORD: vent
       SPRING_DATA_REDIS_HOST: redis
+      SPRING_REDIS_RATE_LIMITER: "true"
+      SPRING_REDIS_LIMIT_CAPACITY: "1000"
+      SPRING_REDIS_USER_LIMIT: "10"
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
     depends_on:
       postgres:
         condition: service_healthy
@@ -61,7 +72,8 @@ services:
     ports:
       - "80:80"
     environment:
-      - VITE_API_BASE_URL=http://spring-vent:8080/api
+      VITE_API_BASE_URL: http://spring-vent:8080/api
+      VITE_RAFFLE_REALTIME_URL: ws://spring-vent:8080/ws
     networks:
       - vent-network
     depends_on:

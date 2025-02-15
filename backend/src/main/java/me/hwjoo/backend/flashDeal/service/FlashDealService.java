@@ -162,7 +162,6 @@ public class FlashDealService {
      * 딜의 상태가 ACTIVE인지 확인합니다.
      *
      * @param deal 검증 대상 FlashDeal 엔티티
-     * @throws InvalidDealStatusException 딜이 ACTIVE가 아닌 경우 예외 발생
      */
     private void validateDealStatus(FlashDeal deal) {
         if (deal.getStatus() == FlashDealStatus.ENDED) {

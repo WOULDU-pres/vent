@@ -1,8 +1,9 @@
 {
-    "conventionalCommits.scopes": [
-        "backend/flash-deal",
-        "fullstack/flash-deal",
-        "frontend/flash-deal",
-        "deploy"
-    ]
+  "conventionalCommits.scopes": [
+    "backend/flash-deal",
+    "fullstack/flash-deal",
+    "frontend/flash-deal",
+    "deploy",
+    "backend/raffle"
+  ]
 }

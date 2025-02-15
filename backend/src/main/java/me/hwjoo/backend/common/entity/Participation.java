@@ -9,8 +9,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import java.time.ZonedDateTime;
 import java.util.UUID;
+import lombok.Builder;
 import lombok.Data;
 
+@Builder
 @Data
 @Entity
 public class Participation {
