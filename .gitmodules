@@ -1,0 +1,27 @@
+[submodule "welcome-back"]
+	path = welcome-back
+	url = git@github.com:WOULDU-pres/welcome-back.git
+[submodule "event-platform-common"]
+	path = event-platform-common
+	url = git@github.com:WOULDU-pres/event-platform-common.git
+[submodule "raffle"]
+	path = raffle
+	url = git@github.com:WOULDU-pres/raffle.git
+[submodule "attendance"]
+	path = attendance
+	url = git@github.com:WOULDU-pres/attendance.git
+[submodule "quiz-time"]
+	path = quiz-time
+	url = git@github.com:WOULDU-pres/quiz-time.git
+[submodule "feedback-survey"]
+	path = feedback-survey
+	url = git@github.com:WOULDU-pres/feedback-survey.git
+[submodule "random-picker"]
+	path = random-picker
+	url = git@github.com:WOULDU-pres/random-picker.git
+[submodule "time-attack"]
+	path = time-attack
+	url = git@github.com:WOULDU-pres/time-attack.git
+[submodule "random-box"]
+	path = random-box
+	url = git@github.com:WOULDU-pres/random-box.git
