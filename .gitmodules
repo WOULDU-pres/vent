@@ -25,3 +25,6 @@
 [submodule "random-box"]
 	path = random-box
 	url = git@github.com:WOULDU-pres/random-box.git
+[submodule "event-platform-frontend"]
+	path = event-platform-frontend
+	url = git@github.com:WOULDU-pres/event-platform-frontend.git
